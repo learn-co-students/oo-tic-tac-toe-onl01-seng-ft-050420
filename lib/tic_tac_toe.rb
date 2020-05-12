@@ -18,11 +18,11 @@ class TicTacToe
   end
   
   def display_board
-    print " #{board[0]} | #{board[1]} | #{board[2]} "
+    print " #{@board[0]} | #{@board[1]} | #{@board[2]} "
     print "-----------"
-    print " #{board[3]} | #{board[4]} | #{board[5]} "
+    print " #{@board[3]} | #{@board[4]} | #{@board[5]} "
     print "-----------"
-    print " #{board[6]} | #{board[7]} | #{board[8]} "
+    print " #{@board[6]} | #{@board[7]} | #{@board[8]} "
   end
   
   def input_to_index(input)
@@ -64,7 +64,7 @@ class TicTacToe
   
   def won?
     WIN_COMBINATIONS.each do |combo|
-      return combo if board[combo[0]] == board[combo[1]] && board[combo[1]] == board[combo[2]] && board[combo[0]] != " "
+      return combo if @board[combo[0]] == @board[combo[1]] && @board[combo[1]] == @board[combo[2]] && @board[combo[0]] != " "
     end
     
     return nil
@@ -84,7 +84,7 @@ class TicTacToe
   
   def winner
     if won? != nil
-      return board[won?[0]]
+      return @board[won?[0]]
     else
       return nil
     end
