@@ -11,8 +11,8 @@ class TicTacToe
     [0,4,8]  # Diagonal 2
   ]
 
-  def initialize(board = nil)
-    @board = board || Array.new(9, " ")
+  def initialize
+    @board = Array.new(9, " ")
   end
 
   def display_board
@@ -24,7 +24,7 @@ class TicTacToe
   end
 
   def input_to_index(string)
-    @index = string.to_i - 1
+    string.to_i - 1
   end
 
   def move(index, token = "X")
@@ -32,7 +32,7 @@ class TicTacToe
   end
 
   def position_taken?(index)
-    if @board[0..8] == " "
+    if @board[index] == " "
       return false
     else
       return true
@@ -40,11 +40,7 @@ class TicTacToe
   end
 
   def valid_move?(index)
-    if @board[index] == " "
-      return true
-    else
-      return false
-    end
+    !position_taken?(index) && index.between?(0, 8)
   end
 
   def turn
@@ -52,21 +48,67 @@ class TicTacToe
     input = gets.strip
     index = input_to_index(input)
     token = current_player
-    if valid_move?(index)
-      move(index, token)
-      display_board
-    else
-      turn
+      if valid_move?(index)
+        move(index, token)
+        display_board
+      else
+        turn
     end
   end
 
   def turn_count
-      @board.count{|token| token == "X" || token == "O"}
+    @board.count{|token| token == "X" || token == "O"}
   end
 
   def current_player
     turn_count % 2 == 0 ? "X" : "O"
   end
 
+  def won?
+    win = WIN_COMBINATIONS.find{
+      |combo|
+      @board[combo[0]] == "X" && @board[combo[1]] == "X" && @board[combo[2]] == "X"
+    }
+    draw = WIN_COMBINATIONS.find{
+      |combo|
+      @board[combo[0]] == "O" && @board[combo[1]] == "O" && @board[combo[2]] == "O"
+    }
+    return win || draw
+  end
 
+  def full?
+    !@board.any?{|x| x == "" || x == " "}
+  end
+
+  def draw?
+    !won? && full?
+  end
+
+  def over?
+    won? || draw?
+  end
+
+  def winner
+    WIN_COMBINATIONS.detect do |win_combo|
+      if (@board[win_combo[0]]) == "X" && (@board[win_combo[1]]) == "X" && (@board[win_combo[2]]) == "X"
+        return "X"
+      elsif (@board[win_combo[0]]) == "O" && (@board[win_combo[1]]) == "O" && (@board[win_combo[2]]) == "O"
+        return "O"
+      else
+        nil
+      end
+    end
+  end
+
+  def play
+    while over? == false
+      turn
+    end
+
+    if won?
+      puts "Congratulations #{winner}!"
+    elsif
+      puts "Cat's Game!"
+    end
+  end
 end
