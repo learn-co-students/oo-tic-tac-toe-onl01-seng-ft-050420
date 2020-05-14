@@ -99,10 +99,10 @@ class TicTacToe
     while over? == false
       turn 
     end 
-    if won?
-      winner
-    elsif draw?
+    if draw?
       puts "cat"
+    else 
+      winner
     end 
   end 
     
