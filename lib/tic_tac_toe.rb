@@ -67,6 +67,7 @@ class TicTacToe
   end
   
   def turn
+    puts "Enter a number from 1 to 9:"
     position = gets
   new_index= input_to_index(position)
     if valid_move?(new_index)
@@ -76,7 +77,43 @@ class TicTacToe
     turn
     end
     display_board
+  end 
+
+  def won? 
+    
+    WIN_COMBINATIONS.any? do |array|
+      if position_taken?(array[0]) && @board[array[0]] == @board[array[1]] && @board[array[1]] == @board[array[2]]
+       return array
+    end
+   end
+  end
+ 
+  def full?
+     @board.all?{|space|space !=" "}
+  end
+  
+  def draw?
+    full? && !won?
   end
 
+  def over? 
+    draw? || won?
+  end
 
+  def winner
+    if winner= won? 
+    @board[winner[0]]
+    end
+  end
+
+   def play
+    turn until over?
+      
+    if  won?
+        puts "Congratulations #{winner}!"
+      else
+        puts "Cat's Game!"
+    end
+    
+   end
 end
